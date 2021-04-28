@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/templates/*": ["atomic/templates/*"],
+      "@/atoms/*": ["atomic/atoms/*"],
+      "@/molecules/*": ["atomic/molecules/*"],
+      "@/organisms/*": ["atomic/organisms/*"],
+      "@/lib/*": ["lib/*"],
+      "@/config/*": ["config/*"]
+    }
+  }
+}
