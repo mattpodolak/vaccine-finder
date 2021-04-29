@@ -6,45 +6,6 @@ import { useState } from 'react';
 
 export const Landing = ({ clinics, lastUpdate }) => {
   const [results, setResults] = useState();
-  const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
-
-  const getClinics = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const body = {
-      age: e.currentTarget.age.value,
-      postalCode: e.currentTarget.postalCode.value,
-    };
-    // TODO: add form validation
-
-    const res = await fetch('/api/clinics/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-
-    if (res.status === 200) {
-      const clinics = await res.json();
-      setResults(clinics);
-      setLoading(false);
-    } else if (res.status === 400) {
-      // Show specific error msg
-      setErrorMsg(await res.text());
-      setLoading(false);
-    } else {
-      // Show generic error msg
-      setErrorMsg('Something went wrong, please try again');
-      setLoading(false);
-    }
-  };
-
-  const notifyMe = async (e) => {
-    // TODO: setup function
-    e.preventDefault();
-
-    console.log(body);
-  };
 
   return (
     <div className="text-gray-600 flex flex-col m-5 items-center">
@@ -63,12 +24,12 @@ export const Landing = ({ clinics, lastUpdate }) => {
       </div>
       <div className="flex flex-col justify-center items-center mt-5 p-5 space-y-5 bg-gray-100 w-full">
         <div className="flex flex-col max-w-2xl w-full space-y-1">
-          <h3 className="text-3xl font-medium">Find a vaccination site</h3>
+          <h3 className="text-2xl font-bold">Find a vaccination site</h3>
           <p>
-            Searching eligibility at{' '}
-            <span className="text-two-normal">{clinics}</span> vaccination sites
-            in Toronto. Eligibility data is updated daily based on the
-            information provided{' '}
+            Searching <span className="text-two-normal">{clinics}</span>{' '}
+            vaccination sites in Toronto for hotspot vaccine eligibility.
+            Priority group data is updated daily based on the information
+            provided{' '}
             <a
               className="underline text-two-normal hover:text-two-light ease-in-out duration-300"
               href="https://vaccineto.ca/sites"
@@ -80,8 +41,7 @@ export const Landing = ({ clinics, lastUpdate }) => {
           </p>
 
           <div className="flex flex-col pt-5 space-y-1 w-full">
-            <EligibleForm getClinics={getClinics} />
-            {errorMsg && <p className="text-two-normal">{errorMsg}</p>}
+            <EligibleForm setResults={setResults} />
           </div>
         </div>
       </div>
@@ -89,17 +49,14 @@ export const Landing = ({ clinics, lastUpdate }) => {
         {results && (
           <>
             <div className="flex flex-col space-y-1 w-full">
-              <h3 className="text-3xl font-semibold">Vaccination sites</h3>
-              <h4 className="text-gray-400 text-sm">
-                Last updated {lastUpdate}
-              </h4>
-            </div>
-            <div className="flex flex-col space-y-1 w-full">
               {results.available &&
                 (results.available.length > 0 ? (
                   <div>
-                    <div className="mb-2 text-two-light">
-                      <h3 className="text-2xl font-bold">currently eligible</h3>
+                    <div className="mb-2">
+                      <h3 className="text-2xl font-bold">Search results</h3>
+                      <h4 className="text-gray-400 text-sm">
+                        Last updated {lastUpdate}
+                      </h4>
                     </div>
                     {results.available.map((clinic) => {
                       return <Clinic {...clinic} />;
@@ -107,15 +64,18 @@ export const Landing = ({ clinics, lastUpdate }) => {
                   </div>
                 ) : (
                   <div className="flex-col flex">
-                    <div className="mb-2 text-two-light">
-                      <h3 className="text-2xl font-bold">not eligible</h3>
+                    <div className="mb-2">
+                      <h3 className="text-3xl font-bold">No results found</h3>
+                      <h4 className="text-gray-400 text-sm">
+                        Last updated {lastUpdate}
+                      </h4>
                     </div>
                     <p>
                       Sign up to receive an email when you become eligible to
                       register for a vaccine at a hotspot vaccination site.
                     </p>
                     <div className="mt-5">
-                      <NotifyForm notifyMe={notifyMe} />
+                      <NotifyForm />
                     </div>
                   </div>
                 ))}
