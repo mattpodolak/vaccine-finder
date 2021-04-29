@@ -7,7 +7,9 @@
       "@/molecules/*": ["atomic/molecules/*"],
       "@/organisms/*": ["atomic/organisms/*"],
       "@/lib/*": ["lib/*"],
-      "@/config/*": ["config/*"]
+      "@/config/*": ["config/*"],
+      "@/db/*": ["db/*"],
+      "@/middleware/*": ["middleware/*"]
     }
   }
 }

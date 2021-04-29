@@ -3,8 +3,11 @@ import isEmpty from 'validator/lib/isEmpty';
 import escape from 'validator/lib/escape';
 import trim from 'validator/lib/trim';
 import isPostalCode from 'validator/lib/isPostalCode';
+import database from '@/middleware/database';
 
 const handler = nc();
+
+handler.use(database);
 
 handler.post(async (req, res) => {
   var { age, postalCode } = req.body;
@@ -25,10 +28,10 @@ handler.post(async (req, res) => {
   }
 
   if (isEmpty(postalCode)) {
-    res.status(400).send('Postal Code is required.');
+    res.status(400).send('Postal code is required.');
     return;
   } else if (!isPostalCode(postalCode, 'CA')) {
-    res.status(400).send('Postal Code is required.');
+    res.status(400).send('Valid Canadian postal code is required.');
     return;
   }
 
@@ -36,11 +39,8 @@ handler.post(async (req, res) => {
     {
       _id: 'sajlajsdj',
       name: 'CAMH Vaccination Clinic',
-      host: 'Centre for Addiction and Mental Health',
       status: 'Accepting Online Bookings',
       website: 'http://www.camh.ca/covidvaccine',
-      address: '100 Stokes Street, Toronto, Ontario M6J1H4',
-      distance: 10,
       booking_link:
         'http://www.camh.ca/en/camh-news-and-stories/covid-19-vaccine-booking',
       eligibility:
@@ -49,11 +49,8 @@ handler.post(async (req, res) => {
     {
       _id: 'asklnjkc',
       name: 'CAMH Vaccination Clinic',
-      host: 'Centre for Addiction and Mental Health',
       status: 'Accepting Online Bookings',
       website: 'http://www.camh.ca/covidvaccine',
-      address: '100 Stokes Street, Toronto, Ontario M6J1H4',
-      distance: 10,
       booking_link:
         'http://www.camh.ca/en/camh-news-and-stories/covid-19-vaccine-booking',
       eligibility:
@@ -61,8 +58,8 @@ handler.post(async (req, res) => {
     },
   ];
 
-  // res.status(200).json({ available });
-  res.status(200).json({ available: [] });
+  res.status(200).json({ available });
+  // res.status(200).json({ available: [] });
   return;
 });
 
