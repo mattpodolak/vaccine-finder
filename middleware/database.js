@@ -13,7 +13,7 @@ export async function createIndexes(db) {
   try {
     await Promise.all([
       db.collection('users').createIndex({ email: 1 }, { unique: true }),
-      // db.collection('clinics').createIndex({ name: 1 }),
+      db.collection('clinics').createIndex({ name: 1 }),
     ]);
 
     indexesCreated = true;

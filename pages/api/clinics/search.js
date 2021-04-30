@@ -4,10 +4,32 @@ import escape from 'validator/lib/escape';
 import trim from 'validator/lib/trim';
 import isPostalCode from 'validator/lib/isPostalCode';
 import database from '@/middleware/database';
+import { findClinics } from '@/db/clinics';
 
 const handler = nc();
 
 handler.use(database);
+
+const available = [
+  {
+    _id: 'sajlajsdj',
+    name: 'CAMH Vaccination Clinic',
+    status: 'Accepting Online Bookings',
+    booking_link:
+      'http://www.camh.ca/en/camh-news-and-stories/covid-19-vaccine-booking',
+    eligibility:
+      'Adults age 50+ in COVID-19 Hot Spots Communities M5V, M6E, M6H, M6K, M6N, M8V postal code regions (proof of address required)',
+  },
+  {
+    _id: 'asklnjkc',
+    name: 'CAMH Vaccination Clinic',
+    status: 'Accepting Online Bookings',
+    booking_link:
+      'http://www.camh.ca/en/camh-news-and-stories/covid-19-vaccine-booking',
+    eligibility:
+      'Adults age 50+ in COVID-19 Hot Spots Communities M5V, M6E, M6H, M6K, M6N, M8V postal code regions (proof of address required)',
+  },
+];
 
 handler.post(async (req, res) => {
   var { age, postalCode } = req.body;
@@ -35,32 +57,34 @@ handler.post(async (req, res) => {
     return;
   }
 
-  const available = [
-    {
-      _id: 'sajlajsdj',
-      name: 'CAMH Vaccination Clinic',
-      status: 'Accepting Online Bookings',
-      website: 'http://www.camh.ca/covidvaccine',
-      booking_link:
-        'http://www.camh.ca/en/camh-news-and-stories/covid-19-vaccine-booking',
-      eligibility:
-        'Adults age 50+ in COVID-19 Hot Spots Communities M5V, M6E, M6H, M6K, M6N, M8V postal code regions (proof of address required)',
-    },
-    {
-      _id: 'asklnjkc',
-      name: 'CAMH Vaccination Clinic',
-      status: 'Accepting Online Bookings',
-      website: 'http://www.camh.ca/covidvaccine',
-      booking_link:
-        'http://www.camh.ca/en/camh-news-and-stories/covid-19-vaccine-booking',
-      eligibility:
-        'Adults age 50+ in COVID-19 Hot Spots Communities M5V, M6E, M6H, M6K, M6N, M8V postal code regions (proof of address required)',
-    },
-  ];
+  var shortPostal = '';
 
-  res.status(200).json({ available });
-  // res.status(200).json({ available: [] });
-  return;
+  try {
+    shortPostal = postalCode.slice(0, 3);
+  } catch (e) {
+    res.status(400).send('Valid Canadian postal code is required.');
+    return;
+  }
+
+  try {
+    const clinics = await findClinics(req.db, age, shortPostal);
+
+    res.status(200).json({
+      available: clinics.map((clinic) => {
+        return {
+          _id: clinic._id,
+          name: clinic.name,
+          booking_link: clinic.booking_link,
+          eligibility: clinic.eligibility,
+        };
+      }),
+    });
+    return;
+  } catch (e) {
+    console.log(`Database Error: ${e}`);
+    res.status(400).send('Something went wrong, please try again.');
+    return;
+  }
 });
 
 export default handler;
