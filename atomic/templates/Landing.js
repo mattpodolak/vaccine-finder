@@ -59,7 +59,7 @@ export const Landing = ({ clinics, lastUpdate }) => {
                       </h4>
                     </div>
                     {results.available.map((clinic) => {
-                      return <Clinic {...clinic} />;
+                      return <Clinic key={clinic._id} {...clinic} />;
                     })}
                   </div>
                 ) : (
