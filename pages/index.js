@@ -7,7 +7,7 @@ export default function Home({ clinics, lastUpdate }) {
   return (
     <>
       <Head>
-        <title>COVID-19 Vaccine Search</title>
+        <title>Hotspot Vaccine Search</title>
       </Head>
       <Header />
       <Landing clinics={clinics} lastUpdate={lastUpdate} />

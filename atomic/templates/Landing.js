@@ -13,12 +13,11 @@ export const Landing = ({ clinics, lastUpdate }) => {
         <div className="md:-ml-12">
           <img src="health-doctor-vaccine.svg" width="250px" height="200px" />
         </div>
-        <div className="flex flex-col space-y-2 m-5 md:-ml-5">
-          <h1 className="text-4xl font-semibold">
-            Check eligibility for a hotspot vaccine
-          </h1>
+        <div className="flex flex-col max-w-xl space-y-2 m-5 md:-ml-5">
+          <h1 className="text-4xl font-semibold">Find a hotspot vaccine</h1>
           <h2 className="text-lg">
-            Find hotspot vaccination sites based on your age and postal code.
+            Search for hotspot vaccination sites based on your age and postal
+            code, and get notified when you become eligible.
           </h2>
         </div>
       </div>
