@@ -16,21 +16,20 @@ export const Landing = ({ clinics, lastUpdate }) => {
           <img src="health-doctor-vaccine.svg" width="250px" height="200px" />
         </div>
         <div className="flex flex-col max-w-xl space-y-2 m-5 md:-ml-5">
-          <h1 className="text-4xl font-semibold">Find a hotspot vaccine</h1>
+          <h1 className="text-4xl font-semibold">Find a vaccine</h1>
           <h2 className="text-lg">
-            Search for hotspot vaccination sites based on your age and postal
-            code, and get notified when you become eligible.
+            Search for pop-up and hot spot vaccination sites based on your age
+            and postal code, and get notified when you become eligible.
           </h2>
         </div>
       </div>
       <div className="flex flex-col justify-center items-center mt-5 p-5 space-y-5 bg-gray-100 w-full">
         <div className="flex flex-col max-w-2xl w-full space-y-1">
-          <h3 className="text-2xl font-bold">Hotspot vaccine search</h3>
+          <h3 className="text-2xl font-bold">Vaccine search</h3>
           <p>
             Checking <span className="text-two-normal">{clinics}</span>{' '}
-            vaccination sites in Toronto for hotspot vaccine eligibility.
-            Priority group data is updated daily based on the information
-            provided{' '}
+            vaccination sites for vaccine eligibility. Priority group data is
+            updated daily based on the information provided{' '}
             <a
               className="underline text-two-normal hover:text-two-light ease-in-out duration-300"
               href="https://vaccineto.ca/sites"

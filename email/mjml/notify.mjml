@@ -30,9 +30,8 @@
           align="left"
           line-height="22px"
         >
-          You are eligible to register at the following {{type}} vaccination
-          site based on the information you provided when you signed up for
-          notifications.
+          You are eligible to register at the following vaccination site based
+          on the information you provided when you signed up for notifications.
         </mj-text>
       </mj-column>
     </mj-section>

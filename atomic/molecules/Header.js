@@ -70,12 +70,7 @@ export const Header = () => {
         >
           <Link href="/">
             <a className="font-semibold text-lg" onClick={closeMobileMenu}>
-              hotspot
-            </a>
-          </Link>
-          <Link href="/popup">
-            <a className="font-semibold text-lg" onClick={closeMobileMenu}>
-              pop-up
+              search
             </a>
           </Link>
         </div>
