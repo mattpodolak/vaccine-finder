@@ -1,6 +1,8 @@
 import nc from 'next-connect';
-import database from '@/middleware/database';
 import isEmpty from 'validator/lib/isEmpty';
+
+import passport from '@/middleware/passport';
+import database from '@/middleware/database';
 import { checkStatus, extractInfo } from '@/lib/extractInfo';
 import { findClinicByName, insertClinic } from '@/db/clinics';
 import { findUsersByClinics } from '@/db/users';
@@ -8,6 +10,8 @@ import { findUsersByClinics } from '@/db/users';
 const handler = nc();
 
 handler.use(database);
+handler.use(passport.initialize());
+handler.use(passport.authenticate('basic', { session: false }));
 
 // update clinics stored in database
 // notify users based on clinic
@@ -61,7 +65,7 @@ handler.post(async (req, res) => {
 
   try {
     await insertClinic(req.db, newClinic);
-    res.status(200).send(`Success, notified ${users.length} users`);
+    res.status(200).send(`Update successful. Notified ${users.length} users`);
     return;
   } catch (error) {
     console.log('Clinic insert error ', error);
