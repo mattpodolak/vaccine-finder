@@ -27,4 +27,4 @@ for i, row in clinics.iterrows():
     if status == 200:
         log.info(resp.text)
     else:
-        log.warn(f'Request failed for {row["name"]}: {resp.text}')
+        log.warning(f'Request failed for {row["name"]}: {resp.text}')

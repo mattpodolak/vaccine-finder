@@ -7,7 +7,6 @@ passport.use(
   new BasicStrategy(
     { passReqToCallback: true },
     async function (req, id, secret, done) {
-      console.log(req);
       // connect to database and query against id / secret
       const user = await findTokenById(req.db, id);
       if (user && (await bcrypt.compare(secret, user.secret))) {
