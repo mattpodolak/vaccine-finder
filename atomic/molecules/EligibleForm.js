@@ -12,7 +12,8 @@ export const EligibleForm = (props) => {
       age: e.currentTarget.age.value,
       postalCode: e.currentTarget.postalCode.value,
     };
-    // TODO: add form validation
+
+    props.setSearchForm(body);
 
     const res = await fetch('/api/clinics/search', {
       method: 'POST',

@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 export const Landing = ({ clinics, lastUpdate }) => {
   const [results, setResults] = useState();
+  const [searchForm, setSearchForm] = useState({});
 
   return (
     <div className="text-gray-600 flex flex-col m-5 items-center">
@@ -40,7 +41,10 @@ export const Landing = ({ clinics, lastUpdate }) => {
           </p>
 
           <div className="flex flex-col pt-5 space-y-1 w-full">
-            <EligibleForm setResults={setResults} />
+            <EligibleForm
+              setResults={setResults}
+              setSearchForm={setSearchForm}
+            />
           </div>
         </div>
       </div>
@@ -74,7 +78,7 @@ export const Landing = ({ clinics, lastUpdate }) => {
                       register for a vaccine at a hotspot vaccination site.
                     </p>
                     <div className="mt-5">
-                      <NotifyForm />
+                      <NotifyForm {...searchForm} />
                     </div>
                   </div>
                 ))}

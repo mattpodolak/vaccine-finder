@@ -11,6 +11,7 @@ export const NotifyForm = (props) => {
     e.preventDefault();
     const body = {
       email: e.currentTarget.email.value,
+      ...props,
     };
     setLoading(true);
 
