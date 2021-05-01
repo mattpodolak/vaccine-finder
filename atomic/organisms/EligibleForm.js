@@ -1,5 +1,6 @@
 import { Button, Input, Spinner } from '@/atoms/index';
 import { useState } from 'react';
+import { logEvent } from '@/lib/analytics';
 
 export const EligibleForm = (props) => {
   const [loading, setLoading] = useState(false);
@@ -14,6 +15,8 @@ export const EligibleForm = (props) => {
     };
 
     props.setSearchForm(body);
+
+    logEvent('Hotspot', `Searching for sites`);
 
     const res = await fetch('/api/clinics/search', {
       method: 'POST',
