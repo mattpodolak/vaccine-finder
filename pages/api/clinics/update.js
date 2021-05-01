@@ -73,6 +73,7 @@ handler.post(async (req, res) => {
             name,
             booking_link,
             eligibility,
+            type: 'hotspot',
           },
         };
         await sendMail(msg);
