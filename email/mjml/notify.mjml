@@ -1,0 +1,104 @@
+<mjml>
+  <mj-body>
+    <mj-section full-width="full-width" background-color="#abdddf">
+      <mj-column>
+        <mj-text
+          color="#ffffff"
+          font-size="20px"
+          padding="0px"
+          padding-left="10px"
+          font-weight="700"
+        >
+          covid-19 vaccine search
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text
+          font-size="23px"
+          font-family="sans-serif"
+          color="#4b5563"
+          align="left"
+        >
+          Vaccination Site Found
+        </mj-text>
+        <mj-text
+          font-size="16px"
+          font-family="sans-serif"
+          color="#4b5563"
+          align="left"
+          line-height="22px"
+        >
+          You are eligible to register at the following {{type}} vaccination
+          site based on the information you provided when you signed up for
+          notifications.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#f7f8fa" padding-bottom="30px">
+      <mj-column>
+        <mj-text
+          font-size="16px"
+          font-family="sans-serif"
+          color="#4b5563"
+          align="left"
+          line-height="22px"
+          font-weight="600"
+        >
+          {{name}}
+        </mj-text>
+        <mj-text
+          font-size="16px"
+          font-family="sans-serif"
+          color="#4b5563"
+          align="left"
+          line-height="22px"
+        >
+          {{eligibility}}
+        </mj-text>
+        <mj-spacer height="20px" />
+        <mj-text
+          font-size="16px"
+          font-family="sans-serif"
+          color="#9AE0D5"
+          align="center"
+        >
+          <a
+            style="
+              background-color: #abdddf;
+              padding: 15px;
+              color: white;
+              text-decoration: none;
+              font-weight: 600;
+            "
+            href="{{booking_link}}"
+            target="_blank"
+          >
+            Register
+          </a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text
+          font-size="16px"
+          font-family="sans-serif"
+          color="#4b5563"
+          align="left"
+          line-height="20px"
+        >
+          If you believe you received this email in error, please contact us at:
+          <a
+            style="color: #f15d4a; text-decoration: none"
+            href="mailto:contact@findavaccine.ca"
+            target="_blank"
+          >
+            contact@findavaccine.ca
+          </a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

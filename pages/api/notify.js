@@ -1,5 +1,4 @@
 import nc from 'next-connect';
-import database from '@/middleware/database';
 import isEmpty from 'validator/lib/isEmpty';
 import escape from 'validator/lib/escape';
 import trim from 'validator/lib/trim';
@@ -8,6 +7,8 @@ import isPostalCode from 'validator/lib/isPostalCode';
 import normalizeEmail from 'validator/lib/normalizeEmail';
 
 import { findUserByEmail, insertUser } from '@/db/users';
+import database from '@/middleware/database';
+import { sendMail } from '@/lib/mail';
 
 const handler = nc();
 
@@ -65,6 +66,16 @@ handler.post(async (req, res) => {
         postal_code: shortPostal,
         age,
       });
+      // send mail to user
+      const msg = {
+        to: email,
+        from: {
+          email: process.env.EMAIL_FROM,
+          name: 'Find a Vaccine',
+        },
+        templateId: 'd-43d46a45b9564d858432f04c030d1cd5',
+      };
+      await sendMail(msg);
       res.status(200).send('Success');
       return;
     }

@@ -6,6 +6,7 @@ import database from '@/middleware/database';
 import { checkStatus, extractInfo } from '@/lib/extractInfo';
 import { findClinicByName, insertClinic } from '@/db/clinics';
 import { findUsersByClinics } from '@/db/users';
+import { sendMail } from '@/lib/mail';
 
 const handler = nc();
 
@@ -54,8 +55,28 @@ handler.post(async (req, res) => {
 
   try {
     // TODO: notify users
+    // TODO: log user ids notified
     if (notify) {
-      console.log(`Notifying ${users.length} users`);
+      for (var i in users) {
+        const user = users[i];
+        console.log(`Notifying ${user._id} for ${name}`);
+
+        // send mail to user
+        const msg = {
+          to: user.email,
+          from: {
+            email: process.env.EMAIL_FROM,
+            name: 'Find a Vaccine',
+          },
+          templateId: 'd-41fced3a5db94251aa8c2169b2ee111f',
+          dynamicTemplateData: {
+            name,
+            booking_link,
+            eligibility,
+          },
+        };
+        await sendMail(msg);
+      }
     }
   } catch (error) {
     console.log('User notify error ', error);
