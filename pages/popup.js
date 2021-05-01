@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Header } from '@/organisms/Header';
+import { Header } from '@/molecules/Header';
 
 const Popup = () => {
   return (

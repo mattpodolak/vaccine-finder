@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Landing } from '@/templates/Landing';
-import { Header } from '@/organisms/Header';
+import { Header } from '@/molecules/Header';
 import { server } from '@/config/index';
 
 export default function Home({ clinics, lastUpdate }) {

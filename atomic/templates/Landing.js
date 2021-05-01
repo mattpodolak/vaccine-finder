@@ -1,8 +1,9 @@
 import { Button } from '@/atoms/Button';
-import { EligibleForm } from '@/molecules/EligibleForm';
-import { NotifyForm } from '@/molecules/NotifyForm';
-import { Clinic } from '@/organisms/Clinic';
+import { EligibleForm } from '@/organisms/EligibleForm';
+import { NotifyForm } from '@/organisms/NotifyForm';
+import { Clinic } from '@/molecules/Clinic';
 import { useState } from 'react';
+import { LastUpdated } from '@/molecules/LastUpdated';
 
 export const Landing = ({ clinics, lastUpdate }) => {
   const [results, setResults] = useState();
@@ -48,41 +49,28 @@ export const Landing = ({ clinics, lastUpdate }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center mt-5 space-y-5 max-w-2xl w-full">
-        {results && (
+      <div className="flex flex-col justify-center mt-5 space-y-2 max-w-2xl w-full">
+        {results && results.available && (
           <>
-            <div className="flex flex-col space-y-1 w-full">
-              {results.available &&
-                (results.available.length > 0 ? (
-                  <div>
-                    <div className="mb-2">
-                      <h3 className="text-2xl font-bold">Search results</h3>
-                      <h4 className="text-gray-400 text-sm">
-                        Last updated {lastUpdate}
-                      </h4>
-                    </div>
-                    {results.available.map((clinic) => {
-                      return <Clinic key={clinic._id} {...clinic} />;
-                    })}
-                  </div>
-                ) : (
-                  <div className="flex-col flex">
-                    <div className="mb-2">
-                      <h3 className="text-3xl font-bold">No results found</h3>
-                      <h4 className="text-gray-400 text-sm">
-                        Last updated {lastUpdate}
-                      </h4>
-                    </div>
-                    <p>
-                      Sign up to receive an email when you become eligible to
-                      register for a vaccine at a hotspot vaccination site.
-                    </p>
-                    <div className="mt-5">
-                      <NotifyForm {...searchForm} />
-                    </div>
-                  </div>
-                ))}
-            </div>
+            <LastUpdated
+              length={results.available.length}
+              lastUpdate={lastUpdate}
+            />
+            {results.available.length > 0 ? (
+              results.available.map((clinic) => {
+                return <Clinic key={clinic._id} {...clinic} />;
+              })
+            ) : (
+              <div>
+                <p>
+                  Sign up to receive an email when you become eligible to
+                  register for a vaccine at a hotspot vaccination site.
+                </p>
+                <div className="mt-5">
+                  <NotifyForm {...searchForm} />
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>
