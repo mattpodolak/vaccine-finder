@@ -16,7 +16,6 @@ export default function Home({ clinics, lastUpdate }) {
 }
 
 export async function getServerSideProps(ctx) {
-  console.log(process.env.NODE_ENV);
   const res = await fetch(`${server}/api/clinics/info`);
   const defaultDate = new Date();
 
