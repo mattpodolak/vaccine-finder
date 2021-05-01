@@ -22,17 +22,18 @@ export async function insertUser(db, { email, postal_code, age }) {
 
 export async function findUsersByClinics(db, { oldClinic, newClinic }) {
   // compare for new postal codes
-  const { new_codes, same_codes } = comparePostal(
-    oldClinic.postal_code,
-    newClinic.postal_code
-  );
+
+  const { postal_code: old_postal = [], age: old_age } = oldClinic || {};
+  const { postal_code: new_postal = [], age: new_age } = newClinic;
+
+  const { new_codes, same_codes } = comparePostal(old_postal, new_postal);
 
   // extract users that match new postal codes and gte new age
   const users_1 =
     (await db
       .collection('users')
       .find({
-        age: { $gte: newClinic.age },
+        age: { $gte: new_age },
         postal_code: { $in: new_codes },
       })
       .toArray()) || [];
@@ -41,7 +42,7 @@ export async function findUsersByClinics(db, { oldClinic, newClinic }) {
     (await db
       .collection('users')
       .find({
-        age: { $gte: newClinic.age, $lt: oldClinic.age },
+        age: { $gte: new_age, $lt: old_age },
         postal_code: { $in: same_codes },
       })
       .toArray()) || [];
