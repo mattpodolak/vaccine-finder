@@ -1,5 +1,5 @@
 export async function findInfo(db) {
-  const numClinics = await db.collection('clinics').count();
+  const numClinics = await db.collection('clinics').countDocuments();
   const recentClinic = db
     .collection('clinics')
     .find()
