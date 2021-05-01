@@ -28,16 +28,7 @@ export const Landing = ({ clinics, lastUpdate }) => {
           <h3 className="text-2xl font-bold">Vaccine search</h3>
           <p>
             Checking <span className="text-two-normal">{clinics}</span>{' '}
-            vaccination sites for vaccine eligibility. Priority group data is
-            updated daily based on the information provided{' '}
-            <a
-              className="underline text-two-normal hover:text-two-light ease-in-out duration-300"
-              href="https://vaccineto.ca/sites"
-              target="_blank"
-            >
-              here
-            </a>
-            .
+            vaccination sites for vaccine eligibility, data is updated daily.
           </p>
 
           <div className="flex flex-col pt-5 space-y-1 w-full">

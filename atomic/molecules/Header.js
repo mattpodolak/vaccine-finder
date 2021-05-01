@@ -11,7 +11,7 @@ export const Header = () => {
         <div className="flex w-full md:w-auto justify-between items-center">
           {/* <div className="w-4 h-4 bg-two-light rounded-xl mx-2"></div> */}
           <Link href="/">
-            <span className="font-bold text-xl">covid-19 vaccine search</span>
+            <a className="font-bold text-xl">covid-19 vaccine search</a>
           </Link>
           <div
             className="mobile-menu md:hidden flex flex-col"
@@ -71,6 +71,11 @@ export const Header = () => {
           <Link href="/">
             <a className="font-semibold text-lg" onClick={closeMobileMenu}>
               search
+            </a>
+          </Link>
+          <Link href="/about">
+            <a className="font-semibold text-lg" onClick={closeMobileMenu}>
+              about
             </a>
           </Link>
         </div>
