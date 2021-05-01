@@ -5,7 +5,7 @@ const Popup = () => {
   return (
     <>
       <Head>
-        <title>Pop-up Vaccine Search</title>
+        <title>About</title>
       </Head>
       <Header />
       <div className="text-gray-600 flex flex-col m-5 items-center">
@@ -21,8 +21,8 @@ const Popup = () => {
               This site is intended for finding{' '}
               <span className="font-medium text-two-normal">pop-up</span> and{' '}
               <span className="font-medium text-two-normal">hotspot</span>{' '}
-              vaccinations, you will NOT be notified based on other eligibility
-              changes.
+              COVID-19 vaccinations, you will NOT be notified based on other
+              eligibility changes.
             </h2>
             <p>
               Data is updated daily based on the information from the
@@ -32,19 +32,31 @@ const Popup = () => {
                 href="https://vaccineto.ca/sites"
                 target="_blank"
               >
-                here.
-              </a>{' '}
-              For more information on getting vaccinated in the city of Toronto
-              you can visit this{' '}
+                here
+              </a>
+              . For more information on getting vaccinated in the city of
+              Toronto you can visit this{' '}
               <a
                 className="text-two-normal"
                 target="_blank"
                 href="https://www.toronto.ca/home/covid-19/covid-19-protect-yourself-others/covid-19-vaccines/covid-19-how-to-get-vaccinated/?accordion=vaccine-eligibility"
               >
-                link.
+                link
               </a>
+              .
             </p>
-            <p></p>
+            <p>
+              If you have any issues accessing the site, or are interested in
+              providing feedback,{' '}
+              <a
+                className="text-two-normal"
+                href="mailto:contact@findavaccine.ca"
+                target="_blank"
+              >
+                contact us
+              </a>
+              .
+            </p>
           </div>
         </div>
       </div>
