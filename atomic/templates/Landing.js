@@ -27,7 +27,7 @@ export const Landing = ({ clinics, lastUpdate }) => {
         <div className="flex flex-col max-w-2xl w-full space-y-1">
           <h3 className="text-2xl font-bold">Hotspot vaccine search</h3>
           <p>
-            Searching <span className="text-two-normal">{clinics}</span>{' '}
+            Checking <span className="text-two-normal">{clinics}</span>{' '}
             vaccination sites in Toronto for hotspot vaccine eligibility.
             Priority group data is updated daily based on the information
             provided{' '}
