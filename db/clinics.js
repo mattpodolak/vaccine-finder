@@ -1,12 +1,8 @@
 export async function findInfo(db) {
+  //TODO: update this to count documents updated last 36h
   const numClinics = await db.collection('clinics').countDocuments({});
-  const recentClinic = db
-    .collection('clinics')
-    .find()
-    .sort({ lastUpdated: -1 })
-    .limit(1);
 
-  return { numClinics, lastUpdated: recentClinic['lastUpdated'] };
+  return { numClinics };
 }
 
 export async function findClinics(db, age, postal) {

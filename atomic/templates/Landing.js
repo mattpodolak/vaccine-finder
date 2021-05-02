@@ -3,9 +3,9 @@ import { EligibleForm } from '@/organisms/EligibleForm';
 import { NotifyForm } from '@/organisms/NotifyForm';
 import { Clinic } from '@/molecules/Clinic';
 import { useState } from 'react';
-import { LastUpdated } from '@/molecules/LastUpdated';
+import { ResultsHeader } from '@/molecules/ResultsHeader';
 
-export const Landing = ({ clinics, lastUpdate }) => {
+export const Landing = ({ clinics }) => {
   const [results, setResults] = useState();
   const [searchForm, setSearchForm] = useState({});
 
@@ -28,7 +28,8 @@ export const Landing = ({ clinics, lastUpdate }) => {
           <h3 className="text-2xl font-bold">Vaccine search</h3>
           <p>
             Checking <span className="text-two-normal">{clinics}</span>{' '}
-            vaccination sites for vaccine eligibility, data is updated daily.
+            vaccination sites for eligibility based on the age and postal code
+            provided.
           </p>
 
           <div className="flex flex-col pt-5 space-y-1 w-full">
@@ -42,10 +43,7 @@ export const Landing = ({ clinics, lastUpdate }) => {
       <div className="flex flex-col justify-center mt-5 space-y-2 max-w-2xl w-full">
         {results && results.available && (
           <>
-            <LastUpdated
-              length={results.available.length}
-              lastUpdate={lastUpdate}
-            />
+            <ResultsHeader length={results.available.length} />
             {results.available.length > 0 ? (
               results.available.map((clinic) => {
                 return <Clinic key={clinic._id} {...clinic} />;
