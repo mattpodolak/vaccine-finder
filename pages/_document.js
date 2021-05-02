@@ -28,6 +28,9 @@ class MyDocument extends Document {
             content="covid-19, vaccines, vaccination, hotspot vaccine, popup vaccine, pop-up vaccine, toronto, toronto vaccines, pop up vaccine, vaccine clinic, hot spot vaccine, vaccine, canada vaccines"
           />
           <meta name="author" content="Matthew Podolak" />
+          <meta name="og:url" content="https://findavaccine.ca" />
+          <meta name="og:type" content="website" />
+          <meta name="fb:app_id" content="149965513675649" />
           <meta name="msapplication-TileColor" content="#A8E6DB" />
           <link
             rel="apple-touch-icon"
