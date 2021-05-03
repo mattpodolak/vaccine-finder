@@ -2,7 +2,6 @@ export const LastUpdated = ({ lastUpdate }) => {
   const options = {
     timeZone: 'America/New_York',
     hour12: true,
-    weekday: 'short',
     year: 'numeric',
     month: 'short',
     day: 'numeric',
