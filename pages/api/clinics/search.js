@@ -77,6 +77,7 @@ handler.post(async (req, res) => {
           booking_link: clinic.booking_link,
           eligibility: clinic.eligibility,
           lastUpdated: clinic.lastUpdated,
+          source: clinic.source,
         };
       }),
     });

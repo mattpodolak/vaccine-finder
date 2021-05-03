@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import Head from 'next/head';
 
 import { initGA, logPageView } from '@/lib/analytics';
-import '../styles/globals.css';
+import '@/styles/globals.css';
+import '@/styles/Tooltip.css';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();

@@ -1,6 +1,10 @@
+import { relativeHours } from '@/lib/relativeDate';
+
 export async function findInfo(db) {
   //TODO: update this to count documents updated last 36h
-  const numClinics = await db.collection('clinics').countDocuments({});
+  const numClinics = await db
+    .collection('clinics')
+    .countDocuments({ lastUpdated: { $gt: relativeHours(36) } });
 
   return { numClinics };
 }
@@ -12,6 +16,7 @@ export async function findClinics(db, age, postal) {
       age: { $lte: age },
       postal_code: { $eq: postal },
       status: { $eq: 'open' },
+      lastUpdated: { $gt: relativeHours(36) },
     })
     .toArray();
 }
@@ -27,7 +32,7 @@ export async function findClinicByName(db, name) {
 
 export async function insertClinic(
   db,
-  { name, status, eligibility, booking_link, postal_code, age }
+  { name, status, eligibility, booking_link, postal_code, age, source }
 ) {
   return db.collection('clinics').findOneAndUpdate(
     { name },
@@ -39,6 +44,7 @@ export async function insertClinic(
         booking_link,
         postal_code,
         age,
+        source,
         lastUpdated: new Date(),
       },
     },

@@ -23,6 +23,7 @@ handler.post(async (req, res) => {
     eligibility = '',
     booking_link = '',
     notify = false,
+    source = '',
   } = req.body;
   if (isEmpty(name) || isEmpty(status)) {
     res.status(400).send('Missing required field.');
@@ -38,6 +39,7 @@ handler.post(async (req, res) => {
     booking_link,
     age,
     postal_code,
+    source,
   };
 
   const oldClinic = await findClinicByName(req.db, name);
