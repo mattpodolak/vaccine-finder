@@ -21,7 +21,7 @@ export const Pill = ({ text, infoText }) => {
     <div className="flex items-center mt-2 w-max" ref={btnRef}>
       <div
         className={
-          (infoText && 'cursor-pointer ') +
+          (infoText ? 'cursor-pointer ' : '') +
           'px-2 py-1 flex items-center justify-center w-max rounded-xl bg-blue-300 text-gray-50'
         }
         onMouseEnter={openTooltip}

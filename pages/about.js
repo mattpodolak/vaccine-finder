@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { Header } from '@/molecules/Header';
+import { Pill } from '@/molecules/Pill';
 
 const Popup = () => {
   return (
@@ -24,27 +25,7 @@ const Popup = () => {
               COVID-19 vaccinations, you will NOT be notified based on other
               eligibility changes.
             </h2>
-            <p>
-              Data is updated daily based on the information from the
-              vaccination sites listed{' '}
-              <a
-                className="text-two-normal"
-                href="https://vaccineto.ca/sites"
-                target="_blank"
-              >
-                here
-              </a>
-              . For more information on getting vaccinated in the city of
-              Toronto you can visit this{' '}
-              <a
-                className="text-two-normal"
-                target="_blank"
-                href="https://www.toronto.ca/home/covid-19/covid-19-protect-yourself-others/covid-19-vaccines/covid-19-how-to-get-vaccinated/?accordion=vaccine-eligibility"
-              >
-                link
-              </a>
-              .
-            </p>
+
             <p>
               If you have any issues accessing the site, or are interested in
               providing feedback,{' '}
@@ -57,6 +38,23 @@ const Popup = () => {
               </a>
               .
             </p>
+            <div>
+              <h3 className="text-2xl font-semibold text-left">Data sources</h3>
+              <div>
+                <Pill text="vaccineto" />
+                <p>
+                  Vaccination site data is updated daily based on the
+                  information listed{' '}
+                  <a
+                    className="text-two-normal"
+                    href="https://vaccineto.ca/sites"
+                    target="_blank"
+                  >
+                    here
+                  </a>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
