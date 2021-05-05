@@ -1,7 +1,6 @@
 import { relativeHours } from '@/lib/relativeDate';
 
 export async function findInfo(db) {
-  //TODO: update this to count documents updated last 36h
   const numClinics = await db
     .collection('clinics')
     .countDocuments({ lastUpdated: { $gt: relativeHours(36) } });
