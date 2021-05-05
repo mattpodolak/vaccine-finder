@@ -3,8 +3,7 @@ import isEmpty from 'validator/lib/isEmpty';
 
 import passport from '@/middleware/passport';
 import database from '@/middleware/database';
-import { checkStatus, extractInfo } from '@/lib/extractInfo';
-import { findClinicByName, insertClinic } from '@/db/clinics';
+import { insertClinic } from '@/db/tweets';
 import { findUsersByClinics } from '@/db/users';
 import { sendMail } from '@/lib/mail';
 
@@ -18,36 +17,42 @@ handler.use(passport.authenticate('basic', { session: false }));
 // notify users based on clinic
 handler.post(async (req, res) => {
   const {
+    id = '',
     name = '',
-    status = '',
+    screen_name = '',
+    lastUpdated = '',
     eligibility = '',
+    postal_code = '',
+    status = '',
+    age = '',
     booking_link = '',
     notify = false,
-    source = '',
+    source = 'twitter',
   } = req.body;
-  if (isEmpty(name) || isEmpty(status)) {
+  if (isEmpty(screen_name) || isEmpty(id)) {
     res.status(400).send('Missing required field.');
     return;
   }
 
-  const { postal_code, age } = extractInfo(eligibility);
-
   const newClinic = {
+    id, //cant parse as a number since it breaks and rounds off
     name,
-    status: checkStatus(status),
+    screen_name,
+    lastUpdated: new Date(lastUpdated + ' UTC'),
     eligibility,
-    booking_link,
-    age,
     postal_code,
+    status,
+    age: parseInt(age),
+    booking_link,
+    notify,
     source,
   };
 
-  const oldClinic = await findClinicByName(req.db, name);
   let users = [];
 
   try {
     if (newClinic.status === 'open') {
-      users = await findUsersByClinics(req.db, { oldClinic, newClinic });
+      users = await findUsersByClinics(req.db, { newClinic });
     }
   } catch (error) {
     console.log('User notification error ', error);
@@ -70,14 +75,18 @@ handler.post(async (req, res) => {
             email: process.env.EMAIL_FROM,
             name: 'Find a Vaccine',
           },
-          templateId: 'd-41fced3a5db94251aa8c2169b2ee111f',
+          templateId: !isEmpty(booking_link)
+            ? 'd-41fced3a5db94251aa8c2169b2ee111f' // notify template
+            : 'd-1df9f3fe347a499992f33b6170c85db3', // notify no link template
           dynamicTemplateData: {
             name,
+            screen_name,
             booking_link,
             eligibility,
             source,
           },
         };
+
         await sendMail(msg);
       }
     }
@@ -89,7 +98,7 @@ handler.post(async (req, res) => {
 
   try {
     await insertClinic(req.db, newClinic);
-    res.status(200).send(`Update successful. Notified ${users.length} users`);
+    res.status(200).send({ msg: 'Update successful', notify: users.length });
     return;
   } catch (error) {
     console.log('Clinic insert error ', error);

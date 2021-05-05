@@ -44,21 +44,19 @@ export const Landing = ({ clinics }) => {
         {results && results.available && (
           <>
             <ResultsHeader length={results.available.length} />
-            {results.available.length > 0 ? (
+            <div>
+              <p>
+                Get an email notification when you become eligible to register
+                at a hot spot or pop-up vaccination site.
+              </p>
+              <div className="mt-2 mb-5">
+                <NotifyForm {...searchForm} />
+              </div>
+            </div>
+            {results.available.length > 0 &&
               results.available.map((clinic) => {
                 return <Clinic key={clinic._id} {...clinic} />;
-              })
-            ) : (
-              <div>
-                <p>
-                  Sign up to receive an email when you become eligible to
-                  register for a vaccine at a hotspot vaccination site.
-                </p>
-                <div className="mt-5">
-                  <NotifyForm {...searchForm} />
-                </div>
-              </div>
-            )}
+              })}
           </>
         )}
       </div>

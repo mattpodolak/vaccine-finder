@@ -85,6 +85,7 @@ handler.post(async (req, res) => {
           eligibility: clinic.eligibility,
           lastUpdated: clinic.lastUpdated,
           source: clinic.source,
+          screen_name: clinic.screen_name,
         };
       }),
     });
