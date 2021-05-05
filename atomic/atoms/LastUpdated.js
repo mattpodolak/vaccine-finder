@@ -1,6 +1,5 @@
 export const LastUpdated = ({ lastUpdate }) => {
   const options = {
-    timeZone: 'America/New_York',
     hour12: true,
     year: 'numeric',
     month: 'short',
