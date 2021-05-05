@@ -14,7 +14,7 @@ const datasources = [
     source: 'twitter',
     info:
       'Data is updated every 15 minutes from the Vaccine Hunters Canada (@VaxHuntersCan) twitter account',
-    link: 'https://vaccineto.ca/sites',
+    link: 'https://twitter.com/VaxHuntersCan',
   },
 ];
 
