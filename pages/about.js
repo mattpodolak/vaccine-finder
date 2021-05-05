@@ -1,8 +1,24 @@
 import Head from 'next/head';
 import { Header } from '@/molecules/Header';
 import { Pill } from '@/molecules/Pill';
+import { DataSource } from '@/molecules/DataSource';
 
-const Popup = () => {
+const datasources = [
+  {
+    source: 'vaccineto',
+    info:
+      'Vaccination site data is updated daily based on the information listed on the vaccineto website.',
+    link: 'https://vaccineto.ca/sites',
+  },
+  {
+    source: 'twitter',
+    info:
+      'Data is updated every 15 minutes from the Vaccine Hunters Canada (@VaxHuntersCan) twitter account',
+    link: 'https://vaccineto.ca/sites',
+  },
+];
+
+const About = () => {
   return (
     <>
       <Head>
@@ -40,19 +56,10 @@ const Popup = () => {
             </p>
             <div>
               <h3 className="text-2xl font-semibold text-left">Data sources</h3>
-              <div>
-                <Pill text="vaccineto" />
-                <p>
-                  Vaccination site data is updated daily based on the
-                  information listed{' '}
-                  <a
-                    className="text-two-normal"
-                    href="https://vaccineto.ca/sites"
-                    target="_blank"
-                  >
-                    here
-                  </a>
-                </p>
+              <div className="flex flex-wrap">
+                {datasources.map((datasource) => {
+                  return <DataSource {...datasource} />;
+                })}
               </div>
             </div>
           </div>
@@ -61,4 +68,4 @@ const Popup = () => {
     </>
   );
 };
-export default Popup;
+export default About;
