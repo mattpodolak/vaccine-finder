@@ -33,11 +33,21 @@ More info here: https://aws.amazon.com/blogs/compute/choosing-between-aws-lambda
 - If the execution environment is warm from previous invocations, the mount is already prepared.
 - Additionally, you can use this to include packages that exceed the limits of layers.
 
-## Manual
+# Setup Guide
 
-- add environment variables
-- create EFS and access point
-- setup a trigger with EventBridge: using `15minCron` trigger event
+## Local
+
+1. Create EFS and VPC using `./0-create-efs-vpc.sh`
+2. Create S3 bucket with `./1-create-bucket.sh`
+3. Build layer with dependencies `./2-build-layer.sh`
+4. Deploy to AWS Lambda `./3-deploy.sh`
+
+## AWS Console
+
+1. add environment variables
+2. setup a trigger with EventBridge: using `15minCron` trigger event
+3. add lambda function to VPC with all subnets
+4. connect EFS and EFS access point to lambda function
 
 # Guides
 
