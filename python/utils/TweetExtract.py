@@ -28,10 +28,8 @@ class TweetExtract(object):
         
         # load postal codes and ANN index
         self.tree = pickle.load(open('ball_postal_index.p', "rb"))
-        postal_codes = pd.read_csv('./CanadianPostalCodes.csv')
-        self._fsa = np.asarray(postal_codes.loc[:, ['FSA']])
+        self._fsa = np.asarray(pd.read_csv('./FSA.csv'))
         self._radius = [self.km_to_rad(2.5)] # search in 2.5km radius
-        del postal_codes
         
     def get_age(self, full_text):
         extracted_age = None
