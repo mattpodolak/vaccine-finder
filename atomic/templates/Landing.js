@@ -27,9 +27,9 @@ export const Landing = ({ clinics }) => {
         <div className="flex flex-col max-w-2xl w-full space-y-1">
           <h3 className="text-2xl font-bold">Vaccine search</h3>
           <p>
-            Checking <span className="text-two-normal">{clinics}</span>{' '}
-            vaccination sites for eligibility based on the age and postal code
-            provided.
+            Checking <span className="text-two-normal">{clinics}</span> recent
+            vaccination site updates for eligibility based on the age and postal
+            code provided.
           </p>
 
           <div className="flex flex-col pt-5 space-y-1 w-full">
