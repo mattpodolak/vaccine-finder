@@ -8,7 +8,7 @@ import logging
 import pandas as pd
 
 logging.basicConfig(level=logging.INFO)
-log = logging.getLogger(__name__)
+log = logging.getLogger()
 load_dotenv()
 
 consumer_key = os.getenv('TWITTER_CONSUMER_KEY')
@@ -42,15 +42,16 @@ for twitter in twitters:
 
   log.info(f'Loaded {len(tweets)} for {screen_name}')
 
+  notified = 0
+  success = 0
+  failed = 0
   # check length, and extract if > 0
   if len(tweets) > 0:
     log.info('Starting tweet data extract')
     data = extract.extract_tweets(tweets)
 
     tweets_df = pd.DataFrame(data)
-    notified = 0
-    success = 0
-    failed = 0
+
     for i, row in tweets_df.iterrows():
       payload = {"notify": True, **row}
       resp = requests.post(f'{api_url}/api/tweets/update', data=payload, auth=(api_key, secret) )
@@ -62,6 +63,5 @@ for twitter in twitters:
       else:
           log.error(f'Request failed for {row["id"]}: {resp.text}')
           failed +=1
-    log.info(f'Loaded {success} tweets, notified {notified} users')
-    if failed > 0:
-      log.warning(f'Failed to load {failed} tweets')
+  stat_str = f'Loaded {success} tweets, notified {notified} users. Failed to load {failed} tweets'
+  log.info(stat_str)

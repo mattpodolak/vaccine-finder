@@ -38,5 +38,7 @@ yarn-error.log*
 /python/*.csv
 /python/.ipynb_checkpoints
 /python/*.p
+/python/utils/*.p
+/python/utils/*.csv
 /python/*.bin
 /python/utils/__pycache__
