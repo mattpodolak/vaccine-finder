@@ -1,0 +1,7 @@
+/function/utils/__pycache__
+/function/utils/*.p
+/function/utils/*.csv
+/bucket-name.txt
+/package
+/out.yml
+/deps

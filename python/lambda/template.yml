@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Lambda application that calls the Lambda API.
+Resources:
+  function:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.8
+      CodeUri: function/.
+      Description: Scrape the latest tweets from VaxHuntersCan twitter account and load into DB via API
+      MemorySize: 500
+      Timeout: 600
+      # Function's execution role
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+      Layers:
+        - !Ref libs
+  libs:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: twitter-scraper-lib
+      Description: Dependencies for the twitter-scraper sample app.
+      ContentUri: package/.
+      CompatibleRuntimes:
+        - python3.8
