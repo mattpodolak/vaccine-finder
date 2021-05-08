@@ -28,9 +28,7 @@ class TweetExtract(object):
         self.num_match = 0
         
         self.API_KEY = os.getenv('GOOGLE_API_KEY')
-        self._s3 = boto3.client('s3',
-            aws_access_key_id=S3_ACCESS_KEY,
-            aws_secret_access_key=S3_SECRET_KEY)
+        self._s3 = boto3.client('s3')
         
         # load postal codes and ANN index
         self.load_files(['FSA.csv', 'ball_postal_index.p'], filePath)
