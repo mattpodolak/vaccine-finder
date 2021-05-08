@@ -55,7 +55,9 @@ const About = () => {
               .
             </p>
             <div>
-              <h3 className="text-2xl font-semibold text-left">Data sources</h3>
+              <h3 className="text-2xl font-semibold text-left mb-4">
+                Data sources
+              </h3>
               <div className="flex flex-wrap">
                 {datasources.map((datasource) => {
                   return <DataSource {...datasource} />;
