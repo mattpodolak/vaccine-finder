@@ -72,6 +72,12 @@ More info here: https://aws.amazon.com/blogs/compute/choosing-between-aws-lambda
 6. Upload required files to S3 Bucket
 7. Use DataSync to transfer files from S3 to EFS
 
+# Architecture Setup in AWS
+
+Architecture for the setup of the lambda function in AWS for scraping tweets every 15mins is outlined in the following diagram:
+
+![aws](/diagram/aws.png)
+
 # Guides
 
 ## Python Lambda
