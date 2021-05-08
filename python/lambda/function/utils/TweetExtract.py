@@ -5,6 +5,13 @@ import numpy as np
 import pickle
 import requests
 import json
+import boto3
+from os import path
+
+# load credentials for S3
+S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
+S3_SECRET_KEY = os.getenv("S3_SECRET_KEY")
+filePath = '/tmp'
 
 class TweetExtract(object):
     
@@ -21,11 +28,24 @@ class TweetExtract(object):
         self.num_match = 0
         
         self.API_KEY = os.getenv('GOOGLE_API_KEY')
+        self._s3 = boto3.client('s3',
+            aws_access_key_id=S3_ACCESS_KEY,
+            aws_secret_access_key=S3_SECRET_KEY)
         
         # load postal codes and ANN index
-        self.tree = pickle.load(open('ball_postal_index.p', "rb"))
-        self._fsa = np.asarray(pd.read_csv('./FSA.csv'))
+        self.load_files(['FSA.csv', 'ball_postal_index.p'], filePath)
+        self.tree = pickle.load(open(f'{filePath}/ball_postal_index.p', "rb"))
+        self._fsa = np.asarray(pd.read_csv(f'{filePath}/FSA.csv'))
         self._radius = [self.km_to_rad(2.5)] # search in 2.5km radius
+        
+    def load_files(self, filenames, fileDir):
+        print('Loading required files')
+        for file in filenames:
+            file_path = f"{fileDir}/{file}"
+            if not path.exists(file_path):
+                with open(file_path, 'wb') as f:
+                    print('Downloading', file)
+                    self._s3.download_fileobj('twitter-extract-files', file, f)
         
     def get_age(self, full_text):
         extracted_age = None

@@ -1,7 +1,11 @@
 /function/utils/__pycache__
-/function/utils/*.p
-/function/utils/*.csv
+/files/*.p
+/files/*.csv
 /bucket-name.txt
 /package
+/sklearn
+/numpypandas
+/np-pd
 /out.yml
-/deps
+/deps*
+/test

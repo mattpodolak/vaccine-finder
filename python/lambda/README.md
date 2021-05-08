@@ -48,6 +48,20 @@ More info here: https://aws.amazon.com/blogs/compute/choosing-between-aws-lambda
 2. setup a trigger with EventBridge: using `15minCron` trigger event
 3. add lambda function to VPC with all subnets
 4. connect EFS and EFS access point to lambda function
+5. Ensure that EFS security groups allow for access over port 2049 (NFS)
+6. Create 2 SNS topics and subscriptions pairs for success, and failure
+
+## Load to EFS
+
+1. Create EC2 instance with an SG group with SSH port open and a route table for an internet gateway
+2. Mount EFS to EC2 instance
+3. SSH into EFS and create a folder, chmod this folder as root user
+4. SCP files from computer
+
+### Didnt work? - DataSync non-stop errors
+
+6. Upload required files to S3 Bucket
+7. Use DataSync to transfer files from S3 to EFS
 
 # Guides
 

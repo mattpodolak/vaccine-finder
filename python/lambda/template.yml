@@ -33,11 +33,29 @@ Resources:
               Resource: '*'
       Layers:
         - !Ref libs
+        - !Ref numpypandas
+        - !Ref sklearn
   libs:
     Type: AWS::Serverless::LayerVersion
     Properties:
       LayerName: twitter-scraper-lib
       Description: Dependencies for the twitter-scraper sample app.
       ContentUri: package/.
+      CompatibleRuntimes:
+        - python3.8
+  numpypandas:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: numpypandas
+      Description: numpy and pandas.
+      ContentUri: numpypandas/.
+      CompatibleRuntimes:
+        - python3.8
+  sklearn:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: sklearn
+      Description: sklearn.
+      ContentUri: sklearn/.
       CompatibleRuntimes:
         - python3.8
