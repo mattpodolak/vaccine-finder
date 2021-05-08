@@ -7,6 +7,10 @@ import requests
 import json
 import boto3
 from os import path
+import logging
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 # load credentials for S3
 S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
@@ -29,6 +33,7 @@ class TweetExtract(object):
         
         self.API_KEY = os.getenv('GOOGLE_API_KEY')
         self._s3 = boto3.client('s3')
+        self._sns = boto3.client('sns')
         
         # load postal codes and ANN index
         self.load_files(['FSA.csv', 'ball_postal_index.p'], filePath)
@@ -37,12 +42,12 @@ class TweetExtract(object):
         self._radius = [self.km_to_rad(2.5)] # search in 2.5km radius
         
     def load_files(self, filenames, fileDir):
-        print('Loading required files')
+        log.info('Loading required files')
         for file in filenames:
             file_path = f"{fileDir}/{file}"
             if not path.exists(file_path):
                 with open(file_path, 'wb') as f:
-                    print('Downloading', file)
+                    log.info(f'Downloading {file}')
                     self._s3.download_fileobj('twitter-extract-files', file, f)
         
     def get_age(self, full_text):
@@ -103,8 +108,8 @@ class TweetExtract(object):
             return self.search_address(sub_addr)
         
 #         if(g_lat and n_lat):
-#             print(f'Diff in lat: {(float(g_lat) - float(n_lat))/float(g_lat)*100}')
-#             print(f'Diff in lon: {(float(g_lon) - float(n_lon))/float(g_lon) * 100}')
+#             log.info(f'Diff in lat: {(float(g_lat) - float(n_lat))/float(g_lat)*100}')
+#             log.info(f'Diff in lon: {(float(g_lon) - float(n_lon))/float(g_lon) * 100}')
         return lat, lon
     
     # convert radians to km
@@ -193,5 +198,26 @@ class TweetExtract(object):
             tweet_data = self.single_tweet_extract(tweet)
             if(tweet_data):
                 valid_tweet_data.append(tweet_data)
-#         print(self.num_match)        
+#         log.info(self.num_match)        
         return valid_tweet_data
+        
+    def publish_message(self, success, notified, failed):
+        sns_arn = os.environ['snsARN']  # Getting the SNS Topic ARN passed in by the environment variables.
+
+        try:
+            message = ""
+            message += "\nLambda extract summary" + "\n\n"
+            message += "##########################################################\n"
+            message += "# Loaded tweets:- " + str(success) + "\n"
+            message += "# Failed to load:- " + str(failed) + "\n"
+            message += "# Users notified:- " + str(notified) + "\n"
+            message += "##########################################################\n"
+    
+            # Sending the notification...
+            self._sns.publish(
+                TargetArn=sns_arn,
+                Subject=f'Execution success for TweetExtract',
+                Message=message
+            )
+        except ClientError as e:
+            logger.error("An error occured: %s" % e)

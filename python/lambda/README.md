@@ -46,12 +46,21 @@ More info here: https://aws.amazon.com/blogs/compute/choosing-between-aws-lambda
 
 1. add environment variables
 2. setup a trigger with EventBridge: using `15minCron` trigger event
+3. add policy for using S3 bucket
+4. create cloudwatch alarm and use/create an SNS topic and subscription
+5. create SNS topic and subscription for log alerts
+6. add policy to publish to sns topic
+
+## EFS Attempts
+
+### AWS Console
+
 3. add lambda function to VPC with all subnets
 4. connect EFS and EFS access point to lambda function
 5. Ensure that EFS security groups allow for access over port 2049 (NFS)
 6. Create 2 SNS topics and subscriptions pairs for success, and failure
 
-## Load to EFS
+### Load to EFS
 
 1. Create EC2 instance with an SG group with SSH port open and a route table for an internet gateway
 2. Mount EFS to EC2 instance

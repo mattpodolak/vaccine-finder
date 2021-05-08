@@ -7,7 +7,8 @@ import logging
 import pandas as pd
 
 logging.basicConfig(level=logging.INFO)
-log = logging.getLogger()
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 consumer_key = os.getenv('TWITTER_CONSUMER_KEY')
 consumer_secret = os.getenv('TWITTER_CONSUMER_SECRET')
@@ -64,4 +65,5 @@ def lambda_handler(event, context):
             failed +=1
     stat_str = f'Loaded {success} tweets, notified {notified} users. Failed to load {failed} tweets'
     log.info(stat_str)
+    extract.publish_message(success, notified, failed)
     return stat_str
