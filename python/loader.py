@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
 load_dotenv()
-api_url = os.getenv('API_URL')
+api_url = os.getenv('PRD_API_URL')
 api_key = os.getenv('API_KEY')
 secret = os.getenv('SECRET_KEY')
 
