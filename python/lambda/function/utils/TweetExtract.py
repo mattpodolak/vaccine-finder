@@ -43,7 +43,7 @@ class TweetExtract(object):
                 with open(file_path, 'wb') as f:
                     log.info(f'Downloading {file}')
                     self._s3.download_fileobj('twitter-extract-files', file, f)
-        if not self._fsa:
+        if not hasattr(self, '_fsa'):
             self.tree = pickle.load(open(f'{fileDir}/ball_postal_index.p', "rb"))
             self._fsa = np.asarray(pd.read_csv(f'{fileDir}/FSA.csv'))
         
