@@ -3,6 +3,7 @@ import os
 import requests
 import json
 from utils.TweetExtract import TweetExtract
+from utils.notify import publish_message
 import logging
 import pandas as pd
 
@@ -18,7 +19,6 @@ secret = os.getenv('SECRET_KEY')
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 api = tweepy.API(auth)
-extract = TweetExtract()
 
 def lambda_handler(event, context):
   # load twitter info to use to scrape tweets
@@ -47,6 +47,7 @@ def lambda_handler(event, context):
     failed = 0
     # check length, and extract if > 0
     if len(tweets) > 0:
+      extract = TweetExtract()
       log.info('Starting tweet data extract')
       data = extract.extract_tweets(tweets)
 
@@ -65,5 +66,5 @@ def lambda_handler(event, context):
             failed +=1
     stat_str = f'Loaded {success} tweets, notified {notified} users. Failed to load {failed} tweets'
     log.info(stat_str)
-    extract.publish_message(success, notified, failed)
+    publish_message(success, notified, failed)
     return stat_str

@@ -15,7 +15,6 @@ log.setLevel(logging.INFO)
 # load credentials for S3
 S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
 S3_SECRET_KEY = os.getenv("S3_SECRET_KEY")
-filePath = '/tmp'
 
 class TweetExtract(object):
     
@@ -33,12 +32,7 @@ class TweetExtract(object):
         
         self.API_KEY = os.getenv('GOOGLE_API_KEY')
         self._s3 = boto3.client('s3')
-        self._sns = boto3.client('sns')
         
-        # load postal codes and ANN index
-        self.load_files(['FSA.csv', 'ball_postal_index.p'], filePath)
-        self.tree = pickle.load(open(f'{filePath}/ball_postal_index.p', "rb"))
-        self._fsa = np.asarray(pd.read_csv(f'{filePath}/FSA.csv'))
         self._radius = [self.km_to_rad(2.5)] # search in 2.5km radius
         
     def load_files(self, filenames, fileDir):
@@ -49,6 +43,9 @@ class TweetExtract(object):
                 with open(file_path, 'wb') as f:
                     log.info(f'Downloading {file}')
                     self._s3.download_fileobj('twitter-extract-files', file, f)
+        if not self._fsa:
+            self.tree = pickle.load(open(f'{fileDir}/ball_postal_index.p', "rb"))
+            self._fsa = np.asarray(pd.read_csv(f'{fileDir}/FSA.csv'))
         
     def get_age(self, full_text):
         extracted_age = None
@@ -66,22 +63,6 @@ class TweetExtract(object):
             
         return extracted_age
     
-    def nominatim(self,address):
-        lat = lon = None
-        # create parameter string to minimize formatting issues
-        payload= {'q': address, 'format': 'jsonv2','countrycodes':'ca','addressdetails':1}
-        payload_str = "&".join("%s=%s" % (k,v) for k,v in payload.items())
-        resp = requests.get('https://nominatim.openstreetmap.org/search',params=payload_str)
-        if resp.status_code == 200:
-            try:
-                geodata = json.loads(resp.text)
-                if(geodata):
-                    lat = geodata[0]['lat']
-                    lon = geodata[0]['lon']
-            except Exception as e:
-                pass # do nothing
-        return lat, lon
-    
     def gmaps(self,address):
         lat = lon = None
         payload= {'address': address,'components':'country:CA', 'key':self.API_KEY}
@@ -98,18 +79,14 @@ class TweetExtract(object):
         return lat, lon
     
     def search_address(self, address, sub_addr=None):
-#         n_lat, n_lon = self.nominatim(address)
         g_lat, g_lon = self.gmaps(address)
         
-        lat = g_lat #or n_lat
-        lon = g_lon #or n_lon
+        lat = g_lat
+        lon = g_lon
         
         if(not lat and sub_addr):
             return self.search_address(sub_addr)
         
-#         if(g_lat and n_lat):
-#             log.info(f'Diff in lat: {(float(g_lat) - float(n_lat))/float(g_lat)*100}')
-#             log.info(f'Diff in lon: {(float(g_lon) - float(n_lon))/float(g_lon) * 100}')
         return lat, lon
     
     # convert radians to km
@@ -125,6 +102,8 @@ class TweetExtract(object):
         return [float(x[0]) * np.pi / 180, float(x[1]) * np.pi / 180]
     
     def find_postals(self, lat, lon):
+        # load postal codes and ANN index
+        self.load_files(['FSA.csv', 'ball_postal_index.p'], '/tmp')
         point_rad = [np.array(self.deg_to_rad([lat, lon]))]
         ind = self.tree.query_radius(point_rad, r=self._radius)
         postals = np.unique(self._fsa[ind[-1]])
@@ -198,26 +177,5 @@ class TweetExtract(object):
             tweet_data = self.single_tweet_extract(tweet)
             if(tweet_data):
                 valid_tweet_data.append(tweet_data)
-#         log.info(self.num_match)        
         return valid_tweet_data
         
-    def publish_message(self, success, notified, failed):
-        sns_arn = os.environ['snsARN']  # Getting the SNS Topic ARN passed in by the environment variables.
-
-        try:
-            message = ""
-            message += "\nLambda extract summary" + "\n\n"
-            message += "##########################################################\n"
-            message += "# Loaded tweets:- " + str(success) + "\n"
-            message += "# Failed to load:- " + str(failed) + "\n"
-            message += "# Users notified:- " + str(notified) + "\n"
-            message += "##########################################################\n"
-    
-            # Sending the notification...
-            self._sns.publish(
-                TargetArn=sns_arn,
-                Subject=f'Execution success for TweetExtract',
-                Message=message
-            )
-        except ClientError as e:
-            logger.error("An error occured: %s" % e)
