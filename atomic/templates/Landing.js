@@ -5,7 +5,7 @@ import { Clinic } from '@/molecules/Clinic';
 import { useState } from 'react';
 import { ResultsHeader } from '@/molecules/ResultsHeader';
 
-export const Landing = ({ clinics }) => {
+export const Landing = () => {
   const [results, setResults] = useState();
   const [searchForm, setSearchForm] = useState({});
 
@@ -27,9 +27,9 @@ export const Landing = ({ clinics }) => {
         <div className="flex flex-col max-w-2xl w-full space-y-1">
           <h3 className="text-2xl font-bold">Vaccine search</h3>
           <p>
-            Checking <span className="text-two-normal">{clinics}</span> recent
-            vaccination site updates for eligibility based on the age and postal
-            code provided.
+            Check your vaccine eligibility based your age and postal code and
+            set up notifications for when you become eligible at a pop-up
+            vaccination site near you.
           </p>
 
           <div className="flex flex-col pt-5 space-y-1 w-full">
@@ -53,10 +53,21 @@ export const Landing = ({ clinics }) => {
                 <NotifyForm {...searchForm} />
               </div>
             </div>
-            {results.available.length > 0 &&
-              results.available.map((clinic) => {
-                return <Clinic key={clinic._id} {...clinic} />;
-              })}
+
+            {results.available.length > 0 && (
+              <>
+                <p>
+                  <span className="text-two-normal">
+                    {results.available.length}
+                  </span>{' '}
+                  out of {results.clinics} vaccination site(s) matched the
+                  eligibility information provided.
+                </p>
+                {results.available.map((clinic) => {
+                  return <Clinic key={clinic._id} {...clinic} />;
+                })}
+              </>
+            )}
           </>
         )}
       </div>

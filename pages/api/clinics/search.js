@@ -4,32 +4,11 @@ import escape from 'validator/lib/escape';
 import trim from 'validator/lib/trim';
 import isPostalCode from 'validator/lib/isPostalCode';
 import database from '@/middleware/database';
-import { findClinics } from '@/db/clinics';
+import { findClinics, findInfo } from '@/db/clinics';
 
 const handler = nc();
 
 handler.use(database);
-
-const available = [
-  {
-    _id: 'sajlajsdj',
-    name: 'CAMH Vaccination Clinic',
-    status: 'Accepting Online Bookings',
-    booking_link:
-      'http://www.camh.ca/en/camh-news-and-stories/covid-19-vaccine-booking',
-    eligibility:
-      'Adults age 50+ in COVID-19 Hot Spots Communities M5V, M6E, M6H, M6K, M6N, M8V postal code regions (proof of address required)',
-  },
-  {
-    _id: 'asklnjkc',
-    name: 'CAMH Vaccination Clinic',
-    status: 'Accepting Online Bookings',
-    booking_link:
-      'http://www.camh.ca/en/camh-news-and-stories/covid-19-vaccine-booking',
-    eligibility:
-      'Adults age 50+ in COVID-19 Hot Spots Communities M5V, M6E, M6H, M6K, M6N, M8V postal code regions (proof of address required)',
-  },
-];
 
 handler.post(async (req, res) => {
   var { age, postalCode } = req.body;
@@ -75,8 +54,10 @@ handler.post(async (req, res) => {
 
   try {
     const clinics = await findClinics(req.db, age, shortPostal);
+    const info = await findInfo(req.db);
 
     res.status(200).json({
+      clinics: info.numClinics,
       available: clinics.map((clinic) => {
         return {
           _id: clinic._id,
