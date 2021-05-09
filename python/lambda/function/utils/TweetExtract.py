@@ -28,6 +28,7 @@ class TweetExtract(object):
         self.st_lookup = {'street': 'st', 'road': 'rd', 'drive': 'dr', 'boulevard': 'blvd', 'avenue':'ave', 'highway':'hwy'}
         self.t_link_pat = re.compile(r"https:\/\/t.co\/\w+")
         self.province_pat = re.compile(r"\[(\w{2})\]")
+        self.all_postal_pat = re.compile(r'\"([A-Z])\".*(?:HOTSPOT|hotspot|Hotspot|hot spot)')
         self.num_match = 0
         
         self.API_KEY = os.getenv('GOOGLE_API_KEY')
