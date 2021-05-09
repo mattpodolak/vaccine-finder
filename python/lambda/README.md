@@ -76,7 +76,7 @@ More info here: https://aws.amazon.com/blogs/compute/choosing-between-aws-lambda
 
 Architecture for the setup of the lambda function in AWS for scraping tweets every 15mins is outlined in the following diagram:
 
-![aws](/diagram/aws.png)
+![aws](/python/lambda/diagram/aws.png)
 
 # Guides
 
