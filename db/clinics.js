@@ -8,6 +8,13 @@ export async function findInfo(db) {
   return { numClinics };
 }
 
+export async function findPostal(db) {
+  return await db
+    .collection('clinics')
+    .find({ source: 'government' })
+    .toArray();
+}
+
 export async function findClinics(db, age, postal) {
   return db
     .collection('clinics')

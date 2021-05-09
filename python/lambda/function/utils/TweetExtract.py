@@ -31,9 +31,24 @@ class TweetExtract(object):
         self.num_match = 0
         
         self.API_KEY = os.getenv('GOOGLE_API_KEY')
+        self.api_url = os.getenv('API_URL')
         self._s3 = boto3.client('s3')
+
+        # load hotspot postals
+        self.hotspot_postals()
         
         self._radius = [self.km_to_rad(2.5)] # search in 2.5km radius
+
+    def hotspot_postals(self):
+        resp = requests.get(f'{self.api_url}/api/clinics/postal')
+        if resp.status_code == 200:
+            try:
+                codes = json.loads(resp.text)
+                if(codes):
+                    self.hotspot_map = codes['mapped']
+            except Exception as e:
+                self.hotspot_map = {}
+                pass # do nothing
         
     def load_files(self, filenames, fileDir):
         log.info('Loading required files')
@@ -113,8 +128,12 @@ class TweetExtract(object):
         extracted_postal = []
         clean_text = self.t_link_pat.sub('', full_text)
         postals = self.postal_pat.findall(clean_text)
-        
-        if postals: #check for postal code
+        all_postal = self.all_postal_pat.search(full_text)
+
+        if all_postal:
+            letter = all_postal.group(1)
+            extracted_postal = self.hotspot_map.get(letter, [])
+        elif postals: #check for postal code
             extracted_postal = postals
         else: # check for address
             lines = clean_text.split("\n")
