@@ -1,0 +1,57 @@
+<mjml>
+  <mj-body>
+    <mj-section full-width="full-width" background-color="#abdddf">
+      <mj-column>
+        <mj-text
+          color="#ffffff"
+          font-size="20px"
+          padding="0px"
+          padding-left="10px"
+          font-weight="700"
+        >
+          covid-19 vaccine search
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text
+          font-size="23px"
+          font-family="sans-serif"
+          color="#4b5563"
+          align="left"
+        >
+          Unsubscribed from Notifications
+        </mj-text>
+        <mj-text
+          font-size="16px"
+          font-family="sans-serif"
+          color="#4b5563"
+          align="left"
+          line-height="20px"
+        >
+          You have successfully unsubscribed from email notifications. We will
+          no longer email when you become eligible for a vaccine at a pop-up or
+          hot spot vaccination site.
+        </mj-text>
+        <mj-text
+          font-size="16px"
+          font-family="sans-serif"
+          color="#4b5563"
+          align="left"
+          line-height="20px"
+        >
+          If you believe you received this email in error, please contact us at:
+          <a
+            style="color: #f15d4a; text-decoration: none"
+            href="mailto:contact@findavaccine.ca"
+            target="_blank"
+          >
+            contact@findavaccine.ca
+          </a>
+        </mj-text>
+        <mj-spacer height="30px" />
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

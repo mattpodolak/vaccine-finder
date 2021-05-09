@@ -114,5 +114,23 @@
         </mj-text>
       </mj-column>
     </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text
+          font-size="12px"
+          font-family="sans-serif"
+          align="center"
+          line-height="20px"
+        >
+          <a
+            style="color: #fab550; text-decoration: none"
+            href="https://findavaccine.ca/unsubscribe"
+            target="_blank"
+          >
+            unsubscribe
+          </a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
   </mj-body>
 </mjml>

@@ -1,5 +1,12 @@
 import { comparePostal } from '@/lib/extractInfo';
 
+export async function unsubscribeUser(db, email, postal_code) {
+  return db
+    .collection('users')
+    .findOneAndDelete({ email, postal_code })
+    .then((user) => user || null);
+}
+
 export async function findUserByEmail(db, email) {
   return db
     .collection('users')
