@@ -56,8 +56,6 @@ handler.post(async (req, res) => {
   }
 
   try {
-    // TODO: notify users
-    // TODO: log user ids notified
     if (notify) {
       for (var i in users) {
         const user = users[i];

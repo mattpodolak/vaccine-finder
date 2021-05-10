@@ -3,7 +3,7 @@ import isEmpty from 'validator/lib/isEmpty';
 
 import passport from '@/middleware/passport';
 import database from '@/middleware/database';
-import { insertClinic } from '@/db/tweets';
+import { findTweetById, insertClinic } from '@/db/tweets';
 import { findUsersByClinics } from '@/db/users';
 import { sendMail } from '@/lib/mail';
 
@@ -50,6 +50,13 @@ handler.post(async (req, res) => {
 
   let users = [];
 
+  // check if tweet already exists
+  const tweet = await findTweetById(req.db, id);
+  if (tweet) {
+    res.status(200).send({ msg: 'Duplicate tweet', notify: 0 });
+    return;
+  }
+
   try {
     if (newClinic.status === 'open') {
       users = await findUsersByClinics(req.db, { newClinic });
@@ -61,8 +68,6 @@ handler.post(async (req, res) => {
   }
 
   try {
-    // TODO: notify users
-    // TODO: log user ids notified
     if (notify) {
       for (var i in users) {
         const user = users[i];
