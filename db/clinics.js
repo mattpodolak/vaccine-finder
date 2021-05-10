@@ -24,6 +24,7 @@ export async function findClinics(db, age, postal) {
       status: { $eq: 'open' },
       lastUpdated: { $gt: relativeHours(36) },
     })
+    .sort({ lastUpdated: -1 })
     .toArray();
 }
 
