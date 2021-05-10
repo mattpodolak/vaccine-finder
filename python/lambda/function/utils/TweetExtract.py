@@ -165,6 +165,9 @@ class TweetExtract(object):
         
     def single_tweet_extract(self, tweet):
         t_data = dict()
+
+        if(tweet.in_reply_to_user_id):
+            return t_data
         
         full_text = tweet.full_text
 
