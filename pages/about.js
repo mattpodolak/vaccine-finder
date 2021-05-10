@@ -1,15 +1,9 @@
 import Head from 'next/head';
 import { Header } from '@/molecules/Header';
-import { Pill } from '@/molecules/Pill';
 import { DataSource } from '@/molecules/DataSource';
+import { server } from '@/config/index';
 
 const datasources = [
-  {
-    source: 'vaccineto',
-    info:
-      'Vaccination site data is updated daily based on the information listed on the vaccineto website.',
-    link: 'https://vaccineto.ca/sites',
-  },
   {
     source: 'twitter',
     info:
@@ -18,7 +12,7 @@ const datasources = [
   },
 ];
 
-const About = () => {
+const About = ({ sources }) => {
   return (
     <>
       <Head>
@@ -59,8 +53,8 @@ const About = () => {
                 Data sources
               </h3>
               <div className="flex flex-wrap">
-                {datasources.map((datasource) => {
-                  return <DataSource {...datasource} />;
+                {sources.map((source) => {
+                  return <DataSource key={source.link} {...source} />;
                 })}
               </div>
             </div>
@@ -71,3 +65,34 @@ const About = () => {
   );
 };
 export default About;
+
+export async function getServerSideProps(ctx) {
+  const res = await fetch(`${server}/api/tweets/info`);
+  const vacto = {
+    source: 'vaccineto',
+    info:
+      'Vaccination site data is updated daily based on the information listed on the vaccineto website.',
+    link: 'https://vaccineto.ca/sites',
+  };
+
+  try {
+    const { twitters = [] } = await res.json();
+    const sources = twitters.map((tweet) => {
+      return {
+        ...tweet,
+        source: 'twitter',
+        info: `Data is updated every 15 minutes.`,
+        link: `https://twitter.com/${tweet.screen_name}`,
+      };
+    });
+    sources.push(vacto);
+    return {
+      props: { sources }, // will be passed to the page component as props
+    };
+  } catch (error) {
+    console.log('Landing page build error ', error);
+    return {
+      props: { sources: [vacto] }, // will be passed to the page component as props
+    };
+  }
+}
