@@ -28,7 +28,7 @@ class TweetExtract(object):
         self.st_lookup = {'street': 'st', 'road': 'rd', 'drive': 'dr', 'boulevard': 'blvd', 'avenue':'ave', 'highway':'hwy'}
         self.t_link_pat = re.compile(r"https:\/\/t.co\/\w+")
         self.province_pat = re.compile(r"\[(\w{2})\]")
-        self.all_postal_pat = re.compile(r'\"([A-Z])\".*(?:HOTSPOT|hotspot|Hotspot|hot spot)')
+        self.all_postal_pat = re.compile(r'(?:(?:["\'(‘]([A-Z])["\'’)].*(?:HOTSPOT|hotspot|Hotspot|hot spot))|(?:(?:HOTSPOT|hotspot|Hotspot|hot spot).*["\'(‘]([A-Z])["\'’)]))')
         self.num_match = 0
         
         self.API_KEY = os.getenv('GOOGLE_API_KEY')
@@ -132,7 +132,7 @@ class TweetExtract(object):
         all_postal = self.all_postal_pat.search(full_text)
 
         if all_postal:
-            letter = all_postal.group(1)
+            letter = all_postal.group(1) or all_postal.group(2)
             extracted_postal = self.hotspot_map.get(letter, [])
         elif postals: #check for postal code
             extracted_postal = postals
@@ -165,7 +165,7 @@ class TweetExtract(object):
         
     def single_tweet_extract(self, tweet):
         t_data = dict()
-
+        
         if(tweet.in_reply_to_user_id):
             return t_data
         
@@ -201,4 +201,3 @@ class TweetExtract(object):
             if(tweet_data):
                 valid_tweet_data.append(tweet_data)
         return valid_tweet_data
-        
