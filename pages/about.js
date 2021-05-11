@@ -37,14 +37,21 @@ const About = ({ sources }) => {
             </h2>
 
             <p>
-              If you have any issues accessing the site, or are interested in
-              providing feedback,{' '}
+              Let us know how we are doing. We can be reached on Twitter (
+              <a
+                className="text-two-normal"
+                href="https://twitter.com/FindaVaccine"
+                target="_blank"
+              >
+                @FindaVaccine
+              </a>
+              ) or by{' '}
               <a
                 className="text-two-normal"
                 href="mailto:contact@findavaccine.ca"
                 target="_blank"
               >
-                contact us
+                email
               </a>
               .
             </p>
