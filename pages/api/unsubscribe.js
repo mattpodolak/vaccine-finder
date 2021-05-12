@@ -3,7 +3,6 @@ import isEmpty from 'validator/lib/isEmpty';
 import escape from 'validator/lib/escape';
 import trim from 'validator/lib/trim';
 import isEmail from 'validator/lib/isEmail';
-import isPostalCode from 'validator/lib/isPostalCode';
 import normalizeEmail from 'validator/lib/normalizeEmail';
 
 import { unsubscribeUser } from '@/db/users';
