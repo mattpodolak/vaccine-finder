@@ -46,6 +46,13 @@ handler.post(async (req, res) => {
     return;
   }
 
+  try {
+    postalCode = postalCode.toUpperCase();
+  } catch (e) {
+    res.status(400).send('Valid Canadian postal code is required.');
+    return;
+  }
+
   var shortPostal = '';
 
   try {
