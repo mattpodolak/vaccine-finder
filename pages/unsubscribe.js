@@ -14,8 +14,8 @@ const Unsubscribe = () => {
           <div className="flex flex-col space-y-3 m-5 md:-ml-5 text-left text-lg">
             <h1 className="text-4xl font-semibold text-center">Unsubscribe</h1>
             <h2>
-              Please enter the postal code and email that you used when signing
-              up for notifications.
+              Please enter the email that you used when signing up for
+              notifications.
             </h2>
 
             <UnsubscribeForm />

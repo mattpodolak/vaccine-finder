@@ -15,36 +15,18 @@ const handler = nc();
 handler.use(database);
 
 handler.post(async (req, res) => {
-  var { email, postalCode } = req.body;
+  var { email } = req.body;
 
   email = trim(escape(email));
-  postalCode = trim(escape(postalCode));
 
   if (isEmpty(email) || !isEmail(email)) {
     res.status(400).send('Please try a valid email address.');
     return;
   }
 
-  if (isEmpty(postalCode)) {
-    res.status(400).send('Postal code is required.');
-    return;
-  } else if (!isPostalCode(postalCode, 'CA')) {
-    res.status(400).send('Valid Canadian postal code is required.');
-    return;
-  }
-
-  var shortPostal = '';
-
-  try {
-    shortPostal = postalCode.slice(0, 3);
-  } catch (e) {
-    res.status(400).send('Valid postal code is required.');
-    return;
-  }
-
   email = normalizeEmail(email);
   try {
-    const user = await unsubscribeUser(req.db, email, shortPostal);
+    const user = await unsubscribeUser(req.db, email);
     if (user.value) {
       // send mail to user
       const msg = {
@@ -56,7 +38,6 @@ handler.post(async (req, res) => {
         templateId: 'd-097f0a9c72e7453da6070d039a41b542', // unsubscribe template
       };
       await sendMail(msg);
-      // to keep signed up users secure we return success, but do not take action
       res.status(200).send('Success');
     } else {
       res.status(200).send('Success');

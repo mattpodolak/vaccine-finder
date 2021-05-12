@@ -13,7 +13,6 @@ export const UnsubscribeForm = () => {
     e.preventDefault();
     const body = {
       email: e.currentTarget.email.value,
-      postalCode: e.currentTarget.postalCode.value,
     };
     setLoading(true);
     logEvent('Unsubscribe', 'submit form');
@@ -55,18 +54,6 @@ export const UnsubscribeForm = () => {
           draggable
           pauseOnHover
         />
-        <div className="w-32 mx-1">
-          <span className="font-medium mx-1">Postal Code</span>
-          <Input
-            name="postalCode"
-            type="text"
-            pattern="([A-Za-z][0-9][A-Za-z] [0-9][A-Za-z][0-9])|([A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9])"
-            label="Postal Code"
-            placeholder="M5V 1M5"
-            required
-            title="Postal code should be formatted as M5V 1M5 or M5V1M5."
-          />
-        </div>
         <div className="w-48 sm:mr-1">
           <span className="font-medium mx-1">Email</span>
           <Input
